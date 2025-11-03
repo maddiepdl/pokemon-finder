@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Info</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .pokemon-card {
+            max-width: 400px;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container text-center">
+        <h1 class="mb-4">Pokémon Finder</h1>
+        <form id="pokemon-form" class="mb-3">
+            <div class="input-group">
+                <input type="text" id="pokemon-input" class="form-control" placeholder="Enter Pokémon Name or ID"
+                    required>
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+
+        <div id="pokemon-card" class="pokemon-card d-none">
+            <div class="card">
+                <img id="pokemon-image" class="card-img-top" alt="Pokémon image">
+                <div class="card-body">
+                    <h5 id="pokemon-name" class="card-title">Name</h5>
+                    <p id="pokemon-id" class="card-text">ID: </p>
+                    <div id="pokemon-types" class="mb-2"></div>
+                    <p id="pokemon-height" class="card-text">Height: </p>
+                    <p id="pokemon-weight" class="card-text">Weight: </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        /*
+        const form = document.getElementbyId('pokemon-form');
+        form.addEventListener('submit', getPokemon())
+
+        async function getPokemon() {
+            ...
+        }
+        
+        */
+        document.getElementById('pokemon-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const input = document.getElementById('pokemon-input').value.trim().toLowerCase();
+            const card = document.getElementById('pokemon-card');
+            const nameElement = document.getElementById('pokemon-name');
+            const idElement = document.getElementById('pokemon-id');
+            const typesElement = document.getElementById('pokemon-types');
+            const heightElement = document.getElementById('pokemon-height');
+            const weightElement = document.getElementById('pokemon-weight');
+            const imageElement = document.getElementById('pokemon-image');
+
+
+            /*
+                try {
+                   ...code that will be to be executed
+                } catch (error) {
+                    ... code to be executed if an error occurs
+                }
+            
+            */
+
+            try {
+                const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${input}`); // https://pokeapi.co/api/v2/pokemon/pikachu
+                const pokemon = response.data;
+
+                // Populate card with data
+                nameElement.textContent = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+
+                //
+                //   andrea 
+                //   012345
+                //
+                //   chartAt(0).toUpperCase()
+                //   a --> A
+                //
+                //   slice(1) -> ndrea
+                //
+                //   chartAt(0).toUpperCase() + slice(1) -> Andrea
+                //
+                //
+
+                idElement.textContent = `ID: ${pokemon.id}`;
+                typesElement.innerHTML = pokemon.types
+                    .map(typeInfo => `<span class="badge bg-primary me-1">${typeInfo.type.name}</span>`)
+                    .join('');
+                heightElement.textContent = `Height: ${pokemon.height / 10} m`;
+                weightElement.textContent = `Weight: ${pokemon.weight / 10} kg`;
+                imageElement.src = pokemon.sprites.other["official-artwork"].front_default;
+                imageElement.alt = pokemon.name;
+
+                // Show the card
+                card.classList.remove('d-none');
+            } catch (error) {
+                alert('Pokémon not found. Please try again!');
+                card.classList.add('d-none');
+            }
+        });
+    </script>
+</body>
+
+</html>

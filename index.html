@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Finder</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <h1>Pokémon Finder</h1>
+  <!-- search form -->
+  <form id="pokemon-form">
+    <input type="text" id="pokemon-input" placeholder="Enter Pokémon Name or ID" required>
+    <button id="search-btn" type="submit">Search</button>
+  </form>
+
+  <!-- spinner hidden by default -->
+  <div id="loading-spinner" class="spinner"></div>
+
+  <!-- Pokémon card -->
+  <div id="pokemon-card" class="pokemon-card">
+    <img id="pokemon-image" alt="Pokémon image">
+    <h2 id="pokemon-name"></h2>
+    <p id="pokemon-id"></p>
+    <div id="pokemon-types" class="types"></div>
+    <p id="pokemon-height"></p>
+    <p id="pokemon-weight"></p>
+  </div>
+
+  <!-- error message -->
+  <p id="error-message" class="error"></p>
+</body>
+</html>
